@@ -1043,8 +1043,18 @@ static void anop_esil(RAnal *a, RAnalOp *op, ut64 addr, const ut8 *buf, int len,
 		esilprintf (op, "%d,$",
 			R_ABS((int)INSOP(0).imm));
 		break;
-	case X86_INS_SYSCALL:
-	case X86_INS_SYSENTER:
+#ifdef ENABLE_BB_DIFT_SUPPORT
+        case X86_INS_SYSCALL:
+                esilprintf (op, "SYSCALL,SPECIAL");
+                break;
+        case X86_INS_SYSENTER:
+                esilprintf (op, "SYSENTER,SPECIAL");
+                break;
+#else
+        case X86_INS_SYSCALL:
+        case X86_INS_SYSENTER:
+#endif
+
 	case X86_INS_SYSEXIT:
 		break;
 	case X86_INS_INTO:
